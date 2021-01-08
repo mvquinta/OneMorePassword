@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/titleFragment">
+
+    <fragment
+        android:id="@+id/titleFragment"
+        android:name="com.example.onemorepassword.TitleFragment"
+        android:label="TitleFragment"
+        tools:layout="@layout/title_fragment">
+        <action
+            android:id="@+id/action_titleFragment_to_oneMorePasswordFragment"
+            app:destination="@id/oneMorePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/oneMorePasswordFragment"
+        android:name="com.example.onemorepassword.OneMorePasswordFragment"
+        android:label="OneMorePasswordFragment"
+        tools:layout="@layout/one_more_password_fragment"/>
+</navigation>
