@@ -43,6 +43,7 @@ class OneMorePasswordFragment : Fragment() {
         val generateButton: Button = binding.generateButton
         val copyBtn: Button = binding.copyTextButton
         val copyTxt: TextView = binding.passText
+        val lengthPassTextNumber: TextView = binding.lengthPassText
 
         //UI Animations
         val animScale: Animation = AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_scale)
@@ -67,6 +68,36 @@ class OneMorePasswordFragment : Fragment() {
             Toast.makeText(requireActivity(), "Copied to clipboard", Toast.LENGTH_SHORT).show()
         }
 
+        //Set seekBar Listener
+        //onProgressChanged checks progress in realtime and update level strength warning
+        //onStopTrackingTouch sends a toast with password length selected. I think I'll delete this
+        val lengthSizeBar: SeekBar = binding.lengthSizeSeekBar
+        lengthSizeBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            @SuppressLint("NewApi")
+            override fun onProgressChanged(lengthSizeBar: SeekBar, progress: Int, fromUser: Boolean) {
+                lengthPassTextNumber.text = progress.toString()
+                warningPassLevel(lengthPassTextNumber.text.toString().toInt())
+            }
+
+            override fun onStartTrackingTouch(lengthSizeBar: SeekBar) {
+            }
+
+            override fun onStopTrackingTouch(lengthSizeBar: SeekBar) {
+                //Toast.makeText(requireActivity(),"Size of password: " + lengthSizeBar.progress, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        //Set switches to check and update level strength warning when toggled
+        val switchLowButton = binding.lowLettersSwitch
+        switchLowButton.setOnClickListener { warningPassLevel(lengthPassTextNumber.text.toString().toInt()) }
+        val switchUpButton = binding.upLettersSwitch
+        switchUpButton.setOnClickListener { warningPassLevel(lengthPassTextNumber.text.toString().toInt()) }
+        val switchNumbersButton = binding.numbersSwitch
+        switchNumbersButton.setOnClickListener { warningPassLevel(lengthPassTextNumber.text.toString().toInt()) }
+        val switchSymbolsButton = binding.symbolsSwitch
+        switchSymbolsButton.setOnClickListener { warningPassLevel(lengthPassTextNumber.text.toString().toInt()) }
+
+        //MAIN FUNCTION executed
         //When Generate button is clicked I check if all switches are OFF. Is so, a toast warning shows.
         //If at least one of them is ON, generatePass() is executed
         generateButton.setOnClickListener {
@@ -80,140 +111,6 @@ class OneMorePasswordFragment : Fragment() {
             generateButton.startAnimation(animScale)
         }
 
-        //Set seekBar Listener
-        val lengthSizeBar: SeekBar = binding.lengthSizeSeekBar
-        val thisInt: TextView = binding.lengthPassText
-        val passStrengthWarning = binding.passStrengthText
-
-        lengthSizeBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            @SuppressLint("NewApi")
-            override fun onProgressChanged(
-                lengthSizeBar: SeekBar,
-                progress: Int,
-                fromUser: Boolean
-            ) {
-                thisInt.text = progress.toString()
-                val myProgressiveNum = passStrengthLevel(thisInt.text.toString().toInt())
-                when (myProgressiveNum) {
-                    in 2..24 -> {
-                        passStrengthWarning.text = getString(R.string.passStrength_weak)
-                        passStrengthWarning.setTextColor(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_weak
-                            )
-                        )
-                        lengthSizeBar.thumb.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_weak
-                            )
-                        )
-                        lengthSizeBar.progressDrawable.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_weak
-                            )
-                        )
-                    }
-                    in 25..49 -> {
-                        passStrengthWarning.text = getString(R.string.passStrength_good)
-                        passStrengthWarning.setTextColor(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_good
-                            )
-                        )
-                        lengthSizeBar.thumb.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_good
-                            )
-                        )
-                        lengthSizeBar.progressDrawable.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_good
-                            )
-                        )
-                    }
-                    in 50..89 -> {
-                        passStrengthWarning.text = getString(R.string.passStrength_strong)
-                        passStrengthWarning.setTextColor(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_strong
-                            )
-                        )
-                        lengthSizeBar.thumb.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_strong
-                            )
-                        )
-                        lengthSizeBar.progressDrawable.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_strong
-                            )
-                        )
-                    }
-                    in 90..1000 -> {
-                        passStrengthWarning.text = getString(R.string.passStrength_very_strong)
-                        passStrengthWarning.setTextColor(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_very_strong
-                            )
-                        )
-                        lengthSizeBar.thumb.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_very_strong
-                            )
-                        )
-                        lengthSizeBar.progressDrawable.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_very_strong
-                            )
-                        )
-                    }
-                    else -> {
-                        passStrengthWarning.text = getString(R.string.passStrength_very_weak)
-                        passStrengthWarning.setTextColor(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_very_weak
-                            )
-                        )
-                        lengthSizeBar.thumb.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_very_weak
-                            )
-                        )
-                        lengthSizeBar.progressDrawable.setTint(
-                            ContextCompat.getColor(
-                                requireActivity(),
-                                R.color.passStrength_color_very_weak
-                            )
-                        )
-                    }
-                }
-            }
-
-            override fun onStartTrackingTouch(lengthSizeBar: SeekBar) {
-            }
-
-            override fun onStopTrackingTouch(lengthSizeBar: SeekBar) {
-                Toast.makeText(
-                    requireActivity(),
-                    "Size of password: " + lengthSizeBar.progress,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
     }
 
 
@@ -224,7 +121,7 @@ class OneMorePasswordFragment : Fragment() {
     }
 
     //This fun() checks how many switch are ON and saves it to an Int variable.
-    //If all switchs are off, numSwitchesOn = 0, I wont be able to create a password
+    //If all switches are off, numSwitchesOn = 0, I wont be able to create a password
     //If numSwitchesOn = 1, 2, 3 or 4 it means, respectively, a weak, good, strong and very strong password
     private fun passStrengthSwitchLevel(): Int {
         val myLowLettersSwitch = binding.lowLettersSwitch
@@ -280,8 +177,8 @@ class OneMorePasswordFragment : Fragment() {
     //Methods to update UI and respect viewModel set up
     private fun savedGeneratedPass() {
         binding.passText.text = viewModel.finalPass
-        val a = binding.lengthPassText.text.toString().toInt()
-        when (a) {
+        val generatedPassTextSize = binding.lengthPassText.text.toString().toInt()
+        when (generatedPassTextSize) {
             in 8..17 -> binding.passText.textSize = 28f
             in 18..25-> binding.passText.textSize = 24f
             in 26..50 -> binding.passText.textSize = 20f
@@ -289,8 +186,7 @@ class OneMorePasswordFragment : Fragment() {
         }
     }
 
-
-    //Funtion with all animations used that are created programmatically
+    //Funtions with all animations that are created programmatically
     fun animations() {
         val generateButtonAnim = binding.generateButton
         val copyBtnAnim = binding.copyTextButton
@@ -311,4 +207,120 @@ class OneMorePasswordFragment : Fragment() {
             i?.animate()?.alpha(1f)?.translationYBy(-50f)?.setStartDelay(200)?.duration = 1500
         }
     }
+
+
+    fun warningPassLevel(seekBarNumber: Int) {
+        val myLengthSizeBar: SeekBar = binding.lengthSizeSeekBar
+        val passStrengthWarning = binding.passStrengthText
+        val myProgressiveNum = passStrengthLevel(seekBarNumber)
+        //Toast.makeText(requireActivity(),"Pass Strength level actual é: " + myProgressiveNum, Toast.LENGTH_SHORT).show()
+        when (myProgressiveNum) {
+            in 2..24 -> {
+                passStrengthWarning.text = getString(R.string.passStrength_weak)
+                passStrengthWarning.setTextColor(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_weak
+                        )
+                )
+                myLengthSizeBar.thumb.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_weak
+                        )
+                )
+                myLengthSizeBar.progressDrawable.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_weak
+                        )
+                )
+            }
+            in 25..49 -> {
+                passStrengthWarning.text = getString(R.string.passStrength_good)
+                passStrengthWarning.setTextColor(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_good
+                        )
+                )
+                myLengthSizeBar.thumb.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_good
+                        )
+                )
+                myLengthSizeBar.progressDrawable.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_good
+                        )
+                )
+            }
+            in 50..89 -> {
+                passStrengthWarning.text = getString(R.string.passStrength_strong)
+                passStrengthWarning.setTextColor(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_strong
+                        )
+                )
+                myLengthSizeBar.thumb.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_strong
+                        )
+                )
+                myLengthSizeBar.progressDrawable.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_strong
+                        )
+                )
+            }
+            in 90..1000 -> {
+                passStrengthWarning.text = getString(R.string.passStrength_very_strong)
+                passStrengthWarning.setTextColor(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_very_strong
+                        )
+                )
+                myLengthSizeBar.thumb.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_very_strong
+                        )
+                )
+                myLengthSizeBar.progressDrawable.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_very_strong
+                        )
+                )
+            }
+            else -> {
+                passStrengthWarning.text = getString(R.string.passStrength_very_weak)
+                passStrengthWarning.setTextColor(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_very_weak
+                        )
+                )
+                myLengthSizeBar.thumb.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_very_weak
+                        )
+                )
+                myLengthSizeBar.progressDrawable.setTint(
+                        ContextCompat.getColor(
+                                requireActivity(),
+                                R.color.passStrength_color_very_weak
+                        )
+                )
+            }
+        }
+    }
+
 }

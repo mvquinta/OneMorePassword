@@ -1,16 +1,11 @@
 package com.example.onemorepassword
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 
 class OneMorePasswordViewModel: ViewModel() {
 
     var finalPass: String = "1 + Password"
     var realTimeStrengthLevel: Int = 10
-
-    init {
-        Log.i("MyViewModel", "1+Password ViewModel Created")
-    }
 
     fun passStrengthLevelVM(realTimeLengthVM: Int, passStrengthSwitchLevelVM: Int): Int {
         var realTimeStrengthLevel: Int = 1
