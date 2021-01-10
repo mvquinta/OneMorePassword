@@ -43,10 +43,6 @@ class OneMorePasswordFragment : Fragment() {
         val generateButton: Button = binding.generateButton
         val copyBtn: Button = binding.copyTextButton
         val copyTxt: TextView = binding.passText
-        val myLowLettersSwitch = binding.lowLettersSwitch
-        myLowLettersSwitch.setOnCheckedChangeListener { _, b ->
-            Toast.makeText(requireActivity(),b.toString(),Toast.LENGTH_SHORT).show()
-        }
 
         //UI Animations
         val animScale: Animation = AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_scale)
@@ -220,10 +216,6 @@ class OneMorePasswordFragment : Fragment() {
         })
     }
 
-    //Methods to update UI and respect viewModel set up
-    private fun savedGeneratedPass() {
-        binding.passText.text = viewModel.finalPass
-    }
 
     //This function is executed when Generate button is clicked. It looks for the TextView and edit/inserts generated password
     private fun generatePass() {
@@ -254,17 +246,7 @@ class OneMorePasswordFragment : Fragment() {
     Having in account the length/size of the password and the number of switches on, I created a simple calculation that tells me if it's a weak, good, strong or very strong password.
     This fun() is called in seekBar onProgressChanged. That way I can pass in real time to the function the length selected by user as an argument */
     private fun passStrengthLevel(realTimeLength: Int): Int {
-        var realTimeStrengthLevel: Int = 1
-        if (passStrengthSwitchLevel() == 2) {
-            realTimeStrengthLevel = 16 + realTimeLength * 2
-        } else if (passStrengthSwitchLevel() == 3) {
-            realTimeStrengthLevel = 32 + realTimeLength * 2
-        } else if (passStrengthSwitchLevel() == 4) {
-            realTimeStrengthLevel = 50 + realTimeLength * 2
-        } else {
-            realTimeStrengthLevel = passStrengthSwitchLevel()
-        }
-        return realTimeStrengthLevel
+        return viewModel.passStrengthLevelVM(realTimeLength, passStrengthSwitchLevel())
     }
 
     //Functions that return if switch are ON or OFF.
@@ -295,6 +277,20 @@ class OneMorePasswordFragment : Fragment() {
         return value.getText().toString().toInt()
     }
 
+    //Methods to update UI and respect viewModel set up
+    private fun savedGeneratedPass() {
+        binding.passText.text = viewModel.finalPass
+        val a = binding.lengthPassText.text.toString().toInt()
+        when (a) {
+            in 8..17 -> binding.passText.textSize = 28f
+            in 18..25-> binding.passText.textSize = 24f
+            in 26..50 -> binding.passText.textSize = 20f
+            else -> binding.passText.textSize = 28f
+        }
+    }
+
+
+    //Funtion with all animations used that are created programmatically
     fun animations() {
         val generateButtonAnim = binding.generateButton
         val copyBtnAnim = binding.copyTextButton

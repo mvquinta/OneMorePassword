@@ -6,9 +6,24 @@ import androidx.lifecycle.ViewModel
 class OneMorePasswordViewModel: ViewModel() {
 
     var finalPass: String = "1 + Password"
+    var realTimeStrengthLevel: Int = 10
 
     init {
         Log.i("MyViewModel", "1+Password ViewModel Created")
+    }
+
+    fun passStrengthLevelVM(realTimeLengthVM: Int, passStrengthSwitchLevelVM: Int): Int {
+        var realTimeStrengthLevel: Int = 1
+        if (passStrengthSwitchLevelVM == 2) {
+            realTimeStrengthLevel = 16 + realTimeLengthVM * 2
+        } else if (passStrengthSwitchLevelVM == 3) {
+            realTimeStrengthLevel = 32 + realTimeLengthVM * 2
+        } else if (passStrengthSwitchLevelVM == 4) {
+            realTimeStrengthLevel = 50 + realTimeLengthVM * 2
+        } else {
+            realTimeStrengthLevel = passStrengthSwitchLevelVM
+        }
+        return realTimeStrengthLevel
     }
 
 
@@ -68,11 +83,4 @@ class OneMorePasswordViewModel: ViewModel() {
         finalPass = String(tempListPassChar.toCharArray())
         return finalPass
     }
-
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.i("MyViewModel", "1+Password ViewModel Destroyed")
-    }
-
 }
