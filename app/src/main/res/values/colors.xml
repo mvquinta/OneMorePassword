@@ -7,11 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="passStrength_color_very_weak">#FD0000</color>
-    <color name="passStrength_color_weak">#FF6666</color>
-    <color name="passStrength_color_good">#FFB366</color>
-    <color name="passStrength_color_strong">#458845</color>
-    <color name="passStrength_color_very_strong">#054505</color>
-    <color name="myColorTest">#9C27B0</color>
-    <color name="myColorTest2">#FFEB3B</color>
+    <color name="passStrength_color_neutral">#1ECBD8</color>
+    <color name="passStrength_color_very_weak">#AF1717</color>
+    <color name="passStrength_color_weak">#F2731D</color>
+    <color name="passStrength_color_good">#FFEC00</color>
+    <color name="passStrength_color_strong">#A6FC00</color>
+    <color name="passStrength_color_very_strong">#00FCB4</color>
+    <color name="titleBackground_color">#17737F</color>
+    <color name="actionBar_color">#17737F</color>
+    <color name="widget_darkBlue_color">#216C72</color>
+    <color name="widget_midBlue_color">#0595A0</color>
+    <color name="widget_lightBlue_color">#1ECBD8</color>
 </resources>

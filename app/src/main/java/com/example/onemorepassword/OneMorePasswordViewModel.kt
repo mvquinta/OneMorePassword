@@ -1,11 +1,13 @@
 package com.example.onemorepassword
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 
 class OneMorePasswordViewModel: ViewModel() {
 
     var finalPass: String = "1 + Password"
     var realTimeStrengthLevel: Int = 10
+    var otherString: CharSequence = "myStrong"
 
     fun passStrengthLevelVM(realTimeLengthVM: Int, passStrengthSwitchLevelVM: Int): Int {
         var realTimeStrengthLevel: Int = 1
@@ -78,4 +80,14 @@ class OneMorePasswordViewModel: ViewModel() {
         finalPass = String(tempListPassChar.toCharArray())
         return finalPass
     }
+
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    fun savePassWarning(myString: CharSequence): CharSequence {
+        otherString = myString
+        Log.i("TAG", "fun savePass no view model executada -> ${otherString}")
+        return otherString
+    }
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
 }

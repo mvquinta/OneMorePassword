@@ -5,17 +5,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/titleBackground_color">
 
         <ImageView
             android:id="@+id/ompTitleImage_imageView"
-            android:layout_width="222dp"
-            android:layout_height="393dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:contentDescription="@string/contentDescription_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_1morepassgen_02_vertical" />
+            app:srcCompat="@drawable/omp_titlevectorimage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

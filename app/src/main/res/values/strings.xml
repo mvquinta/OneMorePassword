@@ -15,4 +15,6 @@
     <string name="passStrength_strong">Strong</string>
     <string name="passStrength_very_strong">Very Strong!!</string>
     <string name="ompHeaderImage_contentDescription">Header image of app</string>
+    <string name="character_text">Characters</string>
+    <string name="footerTip_text">Roboword says: You can set the length of your password from 4 (easy to remember) to 50 characters (extra hard to decode). Also, as you choose more parameters your password gets safer. So go big, go nuts!!</string>
 </resources>
