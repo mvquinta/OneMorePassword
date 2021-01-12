@@ -3,8 +3,10 @@ package com.example.onemorepassword
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +23,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.onemorepassword.databinding.OneMorePasswordFragmentBinding
 
-
 class OneMorePasswordFragment : Fragment() {
 
     private lateinit var binding: OneMorePasswordFragmentBinding
@@ -31,10 +32,13 @@ class OneMorePasswordFragment : Fragment() {
         binding = DataBindingUtil.inflate<OneMorePasswordFragmentBinding>(inflater, R.layout.one_more_password_fragment, container, false)
         viewModel = ViewModelProvider(this).get(OneMorePasswordViewModel::class.java)
 
-        //All fun that update UI from viewModel
+        /*All fun that update UI from viewModel and sharedPreferences
+        loadData loads textSize and switches position to update stars-password-strength
+        savedGeneratedPass loads viewModel data
+        I execute warningLevel again to update stars-password-strength in case switches were not used in previous session*/
+        loadUIData()
         savedGeneratedPass()
-        //applySavedWarning()
-        Log.i("TAG", "onCreateView fun applySavedWarning() executada")
+        warningPassLevel()
 
         return binding.root
     }
@@ -51,8 +55,8 @@ class OneMorePasswordFragment : Fragment() {
         val animScale: Animation = AnimationUtils.loadAnimation(requireActivity(), R.anim.anim_scale)
         animations()
 
-        //Initializing clipBoardManager and clip data
-        //Code from geeksforgeeks.org - clipboard-in-android
+        /*Initializing clipBoardManager and clip data
+        Code from geeksforgeeks.org - clipboard-in-android*/
         var clipBoardManager =
                 this.activity?.getSystemService(AppCompatActivity.CLIPBOARD_SERVICE) as ClipboardManager
         var clipData: ClipData
@@ -70,9 +74,9 @@ class OneMorePasswordFragment : Fragment() {
             Toast.makeText(requireActivity(), "Copied to clipboard", Toast.LENGTH_SHORT).show()
         }
 
-        //Set seekBar Listener
-        //onProgressChanged checks progress in realtime and update level strength warning
-        //onStopTrackingTouch sends a toast with password length selected. I think I'll delete this
+        /*Set seekBar Listener
+        onProgressChanged checks progress in realtime and update level strength warning
+        /onStopTrackingTouch sends a toast with password length selected. I think I'll delete this*/
         val lengthSizeBar: SeekBar = binding.lengthSizeSeekBar
         lengthSizeBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             @SuppressLint("NewApi")
@@ -94,42 +98,78 @@ class OneMorePasswordFragment : Fragment() {
         val switchLowButton = binding.lowLettersSwitch
         switchLowButton.setOnClickListener {
             warningPassLevel(lengthPassTextNumber.text.toString().toInt())
-            //a()
+            saveUIData()
         }
         val switchUpButton = binding.upLettersSwitch
         switchUpButton.setOnClickListener {
             warningPassLevel(lengthPassTextNumber.text.toString().toInt())
-            //a()
+            saveUIData()
         }
         val switchNumbersButton = binding.numbersSwitch
         switchNumbersButton.setOnClickListener {
             warningPassLevel(lengthPassTextNumber.text.toString().toInt())
-            //a()
+            saveUIData()
         }
         val switchSymbolsButton = binding.symbolsSwitch
         switchSymbolsButton.setOnClickListener {
             warningPassLevel(lengthPassTextNumber.text.toString().toInt())
-            //a()
+            saveUIData()
         }
 
-        //MAIN FUNCTION executed
-        //When Generate button is clicked I check if all switches are OFF. Is so, a toast warning shows.
-        //If at least one of them is ON, generatePass() is executed
+        /*MAIN FUNCTION executed
+        When Generate button is clicked I check if all switches are OFF. Is so, a toast warning shows.
+        If at least one of them is ON, generatePass() is executed*/
         generateButton.setOnClickListener {
             //if (switchLowLetters() == false && switchUpLetters() == false && switchNumbers() == false && switchSymbols() == false) {
             if (passStrengthSwitchLevel() == 0) {
                 Toast.makeText(requireActivity(), "You must select at least one option please.", Toast.LENGTH_SHORT).show()
             } else {
                 generatePass()
+                saveUIData()
             }
             //Button Animation
             generateButton.startAnimation(animScale)
         }
     }
 
-    //This function is executed when Generate button is clicked. It looks for the TextView and edit/inserts generated password
+    /*saveUIData and loadUIData use sharedPreferences to save and load switches and textSize of password state*/
+    private fun saveUIData() {
+        val sharedPreferences: SharedPreferences?= activity?.getPreferences(Context.MODE_PRIVATE)
+        val editor = sharedPreferences?.edit()
+        editor?.apply{
+            putBoolean("KEY_LOWSWITCH", binding.lowLettersSwitch.isChecked)
+            putBoolean("KEY_UPSWITCH", binding.upLettersSwitch.isChecked)
+            putBoolean("KEY_NUMBERSWITCH", binding.numbersSwitch.isChecked)
+            putBoolean("KEY_SYMBOLWITCH", binding.symbolsSwitch.isChecked)
+            putFloat("KEY_PASSTEXTSYZE", binding.passText.textSize.toFloat())
+        }?.apply()
+    }
+
+    /*In loadUIData I had to find way of convert text size float value to sp. Still not sure why, when I get
+    * the value from textSize and save it would take the sp value and convert it to a float. For this, the size
+    * I get was being multiplied by 3. I force it to divide and get the proper conversion back.
+    * In variable declaration. I have 84f as default value because thats the default size multplied by 3 (28) */
+    private fun loadUIData() {
+        val sharedPreferences: SharedPreferences?= activity?.getPreferences(Context.MODE_PRIVATE)
+        val savedLowSwitchBoolean = sharedPreferences!!.getBoolean("KEY_LOWSWITCH", true)
+        val savedUpSwitchBoolean = sharedPreferences.getBoolean("KEY_UPSWITCH", true)
+        val savedNumberSwitchBoolean = sharedPreferences.getBoolean("KEY_NUMBERSWITCH", true)
+        val savedSymbolSwitchBoolean = sharedPreferences.getBoolean("KEY_SYMBOLWITCH", true)
+        var savedPassTextSize = sharedPreferences.getFloat("KEY_PASSTEXTSYZE", 84f)
+
+        binding.lowLettersSwitch.isChecked = savedLowSwitchBoolean
+        binding.upLettersSwitch.isChecked = savedUpSwitchBoolean
+        binding.numbersSwitch.isChecked = savedNumberSwitchBoolean
+        binding.symbolsSwitch.isChecked = savedSymbolSwitchBoolean
+        savedPassTextSize /= 3
+        binding.passText.textSize = savedPassTextSize
+    }
+
+    /*This function is executed when Generate button is clicked. It looks for the TextView and edit/inserts generated password
+    * It also updates the textSize and saves the generated password from viewModel*/
     private fun generatePass() {
         viewModel.randomPass(mySizePass(), switchLowLetters(), switchUpLetters(), switchNumbers(), switchSymbols())
+        updatePassTextSize()
         savedGeneratedPass()
     }
 
@@ -137,12 +177,12 @@ class OneMorePasswordFragment : Fragment() {
     //If all switches are off, numSwitchesOn = 0, I wont be able to create a password
     //If numSwitchesOn = 1, 2, 3 or 4 it means, respectively, a weak, good, strong and very strong password
     private fun passStrengthSwitchLevel(): Int {
-        val myLowLettersSwitch = binding.lowLettersSwitch
-        val myUpLettersSwitch = binding.upLettersSwitch
-        val myNumbersSwitch = binding.numbersSwitch
-        val mySymbolsSwitch = binding.symbolsSwitch
+        val myLowLettersLevelSwitch = binding.lowLettersSwitch
+        val myUpLettersLevelSwitch = binding.upLettersSwitch
+        val myNumbersLevelSwitch = binding.numbersSwitch
+        val mySymbolsLevelSwitch = binding.symbolsSwitch
         var numSwitchesOn: Int = 0
-        val mySwitchList = listOf(myLowLettersSwitch, myUpLettersSwitch, myNumbersSwitch, mySymbolsSwitch)
+        val mySwitchList = listOf(myLowLettersLevelSwitch, myUpLettersLevelSwitch, myNumbersLevelSwitch, mySymbolsLevelSwitch)
 
         for (i in mySwitchList) {
             if (i.isChecked) {
@@ -158,29 +198,6 @@ class OneMorePasswordFragment : Fragment() {
     private fun passStrengthLevel(realTimeLength: Int): Int {
         return viewModel.passStrengthLevelVM(realTimeLength, passStrengthSwitchLevel())
     }
-
-
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /*fun a() {
-        val string = binding.passStrengthText.text
-        Log.i("TAG", "fun(a) executada -> ${string}")
-        viewModel.savePassWarning(string)
-    }
-
-    fun applySavedWarning() {
-        //binding.passStrengthText.text = viewModel.otherString
-        val x = viewModel.otherString
-        var z = binding.passStrengthText
-        z.text = x
-        Log.i("TAG", "fun applySavedWarnign executada. val x -> ${x}")
-        Log.i("TAG", "fun applySavedWarnign executada. val z -> ${z}")
-        Log.i("TAG", "fun applySavedWarnign executada. val z.text -> ${z.text}")
-    }*/
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
 
     //Functions that return if switch are ON or OFF.
     // It would be cool to check them all in one only function.
@@ -213,16 +230,21 @@ class OneMorePasswordFragment : Fragment() {
     //Methods to update UI and respect viewModel set up
     private fun savedGeneratedPass() {
         binding.passText.text = viewModel.finalPass
+    }
+
+    //This function changes the textSize depending on number of charactets lenght from seekBar
+    fun updatePassTextSize() {
         val generatedPassTextSize = binding.lengthPassText.text.toString().toInt()
+        val passTextSyze = binding.passText
         when (generatedPassTextSize) {
-            in 8..17 -> binding.passText.textSize = 28f
-            in 18..35-> binding.passText.textSize = 20f
-            in 36..50 -> binding.passText.textSize = 16f
-            else -> binding.passText.textSize = 28f
+            in 8..17 -> passTextSyze.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+            in 18..35-> passTextSyze.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+            in 36..50 -> passTextSyze.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            else -> passTextSyze.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
         }
     }
 
-    //Funtions with all animations that are created programmatically
+    //Functions with all animations that are created programmatically
     fun animations() {
         val generateButtonAnim = binding.generateButton
         val copyBtnAnim = binding.copyTextButton
@@ -250,16 +272,15 @@ class OneMorePasswordFragment : Fragment() {
         }
     }
 
-    fun warningPassLevel(seekBarNumber: Int) {
-        val myLengthSizeBar: SeekBar = binding.lengthSizeSeekBar
-        //val passStrengthWarning = binding.passStrengthText
+    //Warning function that evaluates password strength and updates star-levels
+    fun warningPassLevel(seekBarNumber: Int = 10) {
+        //val myLengthSizeBar: SeekBar = binding.lengthSizeSeekBar
         val starLevelOne = binding.levelStar01ImageView
         val starLevelTwo = binding.levelStar02ImageView
         val starLevelThree = binding.levelStar03ImageView
         val starLevelFour = binding.levelStar04ImageView
         val starLevelFive = binding.levelStar05ImageView
         val myProgressiveNum = passStrengthLevel(seekBarNumber)
-        //Toast.makeText(requireActivity(),"Pass Strength level actual é: " + myProgressiveNum, Toast.LENGTH_SHORT).show()
         when (myProgressiveNum) {
             in 2..24 -> {
                 starLevelOne?.alpha = 1f
