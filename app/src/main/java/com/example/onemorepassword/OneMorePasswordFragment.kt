@@ -252,7 +252,7 @@ class OneMorePasswordFragment : Fragment() {
 
     fun warningPassLevel(seekBarNumber: Int) {
         val myLengthSizeBar: SeekBar = binding.lengthSizeSeekBar
-        val passStrengthWarning = binding.passStrengthText
+        //val passStrengthWarning = binding.passStrengthText
         val starLevelOne = binding.levelStar01ImageView
         val starLevelTwo = binding.levelStar02ImageView
         val starLevelThree = binding.levelStar03ImageView

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">OneMorePassword</string>
     <string name="contentDescription_title">One More Password title image logo</string>
+    <string name="contentDescription_starImage">One More Password star image</string>
     <string name="generate">Generate</string>
     <string name="copytext">Copy</string>
     <string name="switchLowLetters">Low Letters</string>

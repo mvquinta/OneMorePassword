@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Bottom 15dp Shadow -->
-    <item>
+    <item android:left="4px">
         <shape  android:shape="rectangle">
             <!--            Button Shadow Color -->
             <solid android:color="#8dc0bf" />
+            <padding android:right="3dp" />
             <corners android:radius="7dp" />
         </shape>
     </item>
     <!-- White Top color -->
-    <item android:bottom="15px">
+    <item android:bottom="9px">
         <shape  android:shape="rectangle">
             <padding android:bottom="10dp"
                 android:top="10dp"
