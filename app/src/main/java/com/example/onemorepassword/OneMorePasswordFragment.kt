@@ -57,7 +57,7 @@ class OneMorePasswordFragment : Fragment() {
 
         /*Initializing clipBoardManager and clip data
         Code from geeksforgeeks.org - clipboard-in-android*/
-        var clipBoardManager =
+        val clipBoardManager =
                 this.activity?.getSystemService(AppCompatActivity.CLIPBOARD_SERVICE) as ClipboardManager
         var clipData: ClipData
 
@@ -266,9 +266,9 @@ class OneMorePasswordFragment : Fragment() {
                 lengthSizeSeekBarAnim, lowLettersSwitchAnim, upLettersSwitchAnim, numbersSwitchAnim, symbolsSwitchAnim, ompHeaderImageImageAnim,
                 starLevelOneAnim, starLevelTwoAnim, starLevelThreeAnim, starLevelFourAnim, starLevelFiveAnim)
         for (i in myList) {
-            i?.alpha = 0f
-            i?.translationY = 50f
-            i?.animate()?.alpha(1f)?.translationYBy(-50f)?.setStartDelay(200)?.duration = 1500
+            i.alpha = 0f
+            i.translationY = 50f
+            i.animate()?.alpha(1f)?.translationYBy(-50f)?.setStartDelay(200)?.duration = 1500
         }
     }
 
@@ -283,64 +283,64 @@ class OneMorePasswordFragment : Fragment() {
         val myProgressiveNum = passStrengthLevel(seekBarNumber)
         when (myProgressiveNum) {
             in 2..24 -> {
-                starLevelOne?.alpha = 1f
-                starLevelTwo?.alpha = 1f
-                starLevelThree?.alpha = 0.5f
-                starLevelFour?.alpha = 0.5f
-                starLevelFive?.alpha = 0.5f
-                starLevelOne?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_weak))
-                starLevelTwo?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_weak))
-                starLevelThree?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
-                starLevelFour?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
-                starLevelFive?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelOne.alpha = 1f
+                starLevelTwo.alpha = 1f
+                starLevelThree.alpha = 0.5f
+                starLevelFour.alpha = 0.5f
+                starLevelFive.alpha = 0.5f
+                starLevelOne.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_weak))
+                starLevelTwo.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_weak))
+                starLevelThree.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelFour.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelFive.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
             }
             in 25..49 -> {
-                starLevelOne?.alpha = 1f
-                starLevelTwo?.alpha = 1f
-                starLevelThree?.alpha = 1f
-                starLevelFour?.alpha = 0.5f
-                starLevelFive?.alpha = 0.5f
-                starLevelOne?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_good))
-                starLevelTwo?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_good))
-                starLevelThree?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_good))
-                starLevelFour?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
-                starLevelFive?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelOne.alpha = 1f
+                starLevelTwo.alpha = 1f
+                starLevelThree.alpha = 1f
+                starLevelFour.alpha = 0.5f
+                starLevelFive.alpha = 0.5f
+                starLevelOne.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_good))
+                starLevelTwo.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_good))
+                starLevelThree.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_good))
+                starLevelFour.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelFive.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
             }
             in 50..89 -> {
-                starLevelOne?.alpha = 1f
-                starLevelTwo?.alpha = 1f
-                starLevelThree?.alpha = 1f
-                starLevelFour?.alpha = 1f
-                starLevelFive?.alpha = 0.5f
-                starLevelOne?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_strong))
-                starLevelTwo?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_strong))
-                starLevelThree?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_strong))
-                starLevelFour?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_strong))
-                starLevelFive?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelOne.alpha = 1f
+                starLevelTwo.alpha = 1f
+                starLevelThree.alpha = 1f
+                starLevelFour.alpha = 1f
+                starLevelFive.alpha = 0.5f
+                starLevelOne.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_strong))
+                starLevelTwo.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_strong))
+                starLevelThree.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_strong))
+                starLevelFour.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_strong))
+                starLevelFive.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
             }
             in 90..1000 -> {
-                starLevelOne?.alpha = 1f
-                starLevelTwo?.alpha = 1f
-                starLevelThree?.alpha = 1f
-                starLevelFour?.alpha = 1f
-                starLevelFive?.alpha = 1f
-                starLevelOne?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
-                starLevelTwo?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
-                starLevelThree?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
-                starLevelFour?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
-                starLevelFive?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
+                starLevelOne.alpha = 1f
+                starLevelTwo.alpha = 1f
+                starLevelThree.alpha = 1f
+                starLevelFour.alpha = 1f
+                starLevelFive.alpha = 1f
+                starLevelOne.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
+                starLevelTwo.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
+                starLevelThree.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
+                starLevelFour.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
+                starLevelFive.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_strong))
             }
             else -> {
-                starLevelOne?.alpha = 1f
-                starLevelTwo?.alpha = 0.5f
-                starLevelThree?.alpha = 0.5f
-                starLevelFour?.alpha = 0.5f
-                starLevelFive?.alpha = 0.5f
-                starLevelOne?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_weak))
-                starLevelTwo?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
-                starLevelThree?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
-                starLevelFour?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
-                starLevelFive?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelOne.alpha = 1f
+                starLevelTwo.alpha = 0.5f
+                starLevelThree.alpha = 0.5f
+                starLevelFour.alpha = 0.5f
+                starLevelFive.alpha = 0.5f
+                starLevelOne.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_very_weak))
+                starLevelTwo.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelThree.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelFour.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
+                starLevelFive.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.passStrength_color_neutral))
             }
         }
     }

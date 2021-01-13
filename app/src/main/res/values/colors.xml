@@ -12,7 +12,7 @@
     <color name="passStrength_color_weak">#F2731D</color>
     <color name="passStrength_color_good">#FFEC00</color>
     <color name="passStrength_color_strong">#A6FC00</color>
-    <color name="passStrength_color_very_strong">#00FCB4</color>
+    <color name="passStrength_color_very_strong">#00EDA9</color>
     <color name="titleBackground_color">#17737F</color>
     <color name="actionBar_color">#17737F</color>
     <color name="widget_darkBlue_color">#216C72</color>

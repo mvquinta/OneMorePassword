@@ -5,10 +5,9 @@ import androidx.lifecycle.ViewModel
 class OneMorePasswordViewModel: ViewModel() {
 
     var finalPass: String = "1 + Password"
-    var realTimeStrengthLevel: Int = 10
 
     fun passStrengthLevelVM(realTimeLengthVM: Int, passStrengthSwitchLevelVM: Int): Int {
-        var realTimeStrengthLevel: Int = 1
+        val realTimeStrengthLevel: Int
         if (passStrengthSwitchLevelVM == 2) {
             realTimeStrengthLevel = 16 + realTimeLengthVM * 2
         } else if (passStrengthSwitchLevelVM == 3) {
