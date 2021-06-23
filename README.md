@@ -37,5 +37,6 @@ Project is: Published in Play Store
 - https://twitter.com/mvqdev1
 
 ## License
-This project is open source and available under the [MIT License](https://github.com/mvquinta/OneMorePassword/blob/main/LICENSE.md).
+This project is open source and available under the [MIT License](https://github.com/mvquinta/OneMorePassword/blob/master/LICENSE.md).
+
 
