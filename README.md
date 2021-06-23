@@ -26,7 +26,7 @@ I wanted to prove myself two things: if I could code and if I liked to code. I c
 
 
 ## Screenshots
-![Example screenshot](./img/onemorepomodoroScreenshot.png)
+![Example screenshot](omp_featureGraphic.jpg)
 
 ## Project Status
 Project is: Published in Play Store
